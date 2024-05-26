@@ -1,0 +1,106 @@
+﻿@model MyProject.Models.UserView
+
+<link href="~/css/login.css" rel="stylesheet" />
+
+@{
+    ViewData["Title"] = "Login";
+}
+<center><h3 class="h3"><b>Login Here</b></h3></center>
+<div class="container screen screen__content">
+    <form class="login">
+
+        <div class="login__field">
+            <input type="text" class="login__input" id="email_id" placeholder="Email" required />
+            <span asp-validation-for="check_email" class="text-danger"></span>
+            <p id="emailError" style="color:red"></p>
+        </div>
+
+        <div class="login__field">
+            <input type="password" class="login__input" id="user_pass" placeholder="Password" required />
+            <span asp-validation-for="check_pass" class="text-danger"></span>
+            <p id="passwordError" style="color:red"></p>
+            <input type="checkbox" onclick="ShowPass()"> Show Password
+        </div>
+
+        <input id="clickMe" type="button" class="button login__submit" value="Login" onclick="data_validation();" />
+
+    </form>
+</div>
+
+<script>
+
+    function data_validation() {
+        var isValid = true;
+
+        if (document.getElementById("email_id").value == "") {
+            $('#emailError').text('This field is required.');
+            isValid = false;
+        } else {
+            $('#emailError').text('');
+        }
+
+        if (document.getElementById("user_pass").value == "") {
+            $('#passwordError').text('This field is required.');
+            isValid = false;
+        } else {
+            $('#passwordError').text('');
+        }
+
+        if (isValid) {
+            this.login_click();
+        }
+    }
+
+    function ShowPass() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+    function login_click() {
+        var email_id = document.getElementById("email_id").value;
+        var user_pass = document.getElementById("user_pass").value;
+
+        var formData = new FormData();
+
+        formData.append('check_email', email_id);
+        formData.append('check_pass', user_pass);
+
+        $.ajax({
+            type: "POST",
+            url: "/User/Login",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (Result) {
+                if (Result == "Success") {
+                    // alert("Login Successfully");
+                    window.location.href = '@Url.Action("ShowData", "User")'
+                }
+                else {
+                    alert("Email Id not found or Incorrect Credential");
+                }
+            },
+            error: function (Result) {
+                console.log(Result.data);
+            }
+        });
+    }
+
+    function ShowPass() {
+        var x = document.getElementById("user_pass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+</script>
+
+
+

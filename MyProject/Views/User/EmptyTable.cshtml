@@ -1,0 +1,18 @@
+﻿@model MyProject.Models.UserView
+
+<a asp-controller="User" asp-action="User">Add New User</a>
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>   @Html.DisplayNameFor(model => model.Id)        </th>
+        <th>   @Html.DisplayNameFor(model => model.FirstName) </th>
+        <th>   @Html.DisplayNameFor(model => model.LastName)  </th>
+        <th>   @Html.DisplayNameFor(model => model.Email)     </th>
+    </tr>
+
+    <tr>
+        <td colspan="4" align="center">No Data Found</td>
+    </tr>
+</table>
